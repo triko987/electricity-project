@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -35,6 +35,65 @@ urlpatterns = [
 
     # Smart Meter Dataset Explorer
     path('dataset/', views.dataset_view, name='dataset'),
+
+    # Settings & Support
+    path('settings/', views.settings_view, name='settings'),
+    path('support/', views.support_view, name='support'),
+
+# Forgot Password
+path(
+    'forgot-password/',
+    auth_views.PasswordResetView.as_view(
+        template_name='consumption/password_reset.html',
+        email_template_name='consumption/password_reset_email.html',
+        subject_template_name='consumption/password_reset_subject.txt',
+        success_url=reverse_lazy('energysync_password_reset_done')
+    ),
+   name='energysync_password_reset'
+),
+
+path(
+    'forgot-password/sent/',
+    auth_views.PasswordResetDoneView.as_view(
+        template_name='consumption/password_reset_done.html'
+    ),
+    name='energysync_password_reset_done'
+),
+
+path(
+    'reset/<uidb64>/<token>/',
+    auth_views.PasswordResetConfirmView.as_view(
+        template_name='consumption/password_reset_confirm.html',
+        success_url=reverse_lazy('energysync_password_reset_complete')
+    ),
+    name='energysync_password_reset_confirm'
+),
+
+path(
+    'reset/complete/',
+    auth_views.PasswordResetCompleteView.as_view(
+        template_name='consumption/password_reset_complete.html'
+    ),
+    name='energysync_password_reset_complete'
+),
+
+    path(
+    'settings/password/',
+    auth_views.PasswordChangeView.as_view(
+        template_name='consumption/password_change.html',
+        success_url='/settings/password/done/'
+    ),
+    name='password_change'
+),
+
+path(
+    'settings/password/done/',
+    auth_views.PasswordChangeDoneView.as_view(
+        template_name='consumption/password_change_done.html'
+    ),
+    name='password_change_done'
+),
+
 
     # Authentication
     path(

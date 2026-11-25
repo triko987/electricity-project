@@ -24,6 +24,9 @@ urlpatterns = [
     # Connect consumption application
     path('', include('consumption.urls')),
 
+    # JWT Authentication & REST API
+    path('api/', include('consumption.api_urls')),
+
     # Login and logout
     path('accounts/', include('django.contrib.auth.urls')),
 ]

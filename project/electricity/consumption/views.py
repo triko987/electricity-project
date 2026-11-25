@@ -8,8 +8,9 @@ import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterForm
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.views.decorators.http import require_POST
 from django.db.models import Sum, Avg, Count
 from django.core.paginator import Paginator
@@ -607,18 +608,15 @@ def dataset_view(request):
 # ========================================================
 
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             messages.success(request, f"Welcome to EnergySync, {user.username}! Your energy management account has been created.")
             return redirect('dashboard')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
 
     return render(request, 'registration/register.html', {'form': form})
 
@@ -626,4 +624,48 @@ def register(request):
 def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
-    return redirect('login')
+
+    response = redirect('login')
+    response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+
+    return response
+
+
+
+# ========================================================
+# 10. SETTINGS & SUPPORT
+# ========================================================
+
+@login_required
+def settings_view(request):
+    User = get_user_model()
+
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+
+        if not username:
+            messages.error(request, "Username cannot be empty.")
+
+        elif User.objects.filter(username__iexact=username).exclude(pk=request.user.pk).exists():
+            messages.error(request, "This username is already taken.")
+
+        elif email and User.objects.filter(email__iexact=email).exclude(pk=request.user.pk).exists():
+            messages.error(request, "This email is already in use.")
+
+        else:
+            request.user.username = username
+            request.user.email = email
+            request.user.save()
+
+            messages.success(request, "Your profile has been updated successfully!")
+            return redirect('settings')
+
+    return render(request, 'consumption/settings.html')
+
+
+@login_required
+def support_view(request):
+    return render(request, 'consumption/support.html')

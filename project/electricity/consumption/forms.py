@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from .models import ElectricityConsumption
 
 class ElectricityConsumptionForm(forms.ModelForm):
@@ -127,3 +129,18 @@ class PredictionSimulatorForm(forms.Form):
         initial=0,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+    
+class RegisterForm(UserCreationForm):
+
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your Gmail address'
+        })
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'email', 'password1', 'password2')

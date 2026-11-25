@@ -1,0 +1,435 @@
+
+{% extends "base.html" %}
+
+{% block title %}Support Center | EnergySync{% endblock %}
+
+{% block content %}
+
+<style>
+.support-page {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 20px;
+    color: #17352b;
+}
+
+.support-hero {
+    background: linear-gradient(120deg, #064e3b, #15803d, #34a36b);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(21,128,61,.18);
+}
+
+.support-hero h1 {
+    font-size: 30px;
+    margin: 0 0 12px;
+}
+
+.support-hero p {
+    color: #dcfce7;
+    max-width: 650px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.support-hero-icon {
+    position: absolute;
+    right: 45px;
+    top: 20px;
+    font-size: 75px;
+    opacity: .18;
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.support-option {
+    background: white;
+    border: 1px solid #e5eee8;
+    border-radius: 15px;
+    padding: 24px;
+    box-shadow: 0 5px 18px rgba(15,70,40,.045);
+    transition: .2s;
+        display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.support-option:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(15,70,40,.09);
+}
+
+.option-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    background: #ecfdf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    margin-bottom: 16px;
+}
+
+.support-option h3 {
+    color: #14532d;
+    font-size: 17px;
+    margin: 0 0 9px;
+}
+
+.support-option p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.support-section {
+    background: white;
+    border: 1px solid #e5eee8;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 5px 18px rgba(15,70,40,.045);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.section-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: #ecfdf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.section-heading h2 {
+    color: #14532d;
+    font-size: 20px;
+    margin: 0 0 5px;
+}
+
+.section-heading p {
+    color: #829188;
+    font-size: 13px;
+    margin: 0;
+}
+
+.faq-item {
+    border: 1px solid #e5eee8;
+    border-radius: 11px;
+    margin-bottom: 12px;
+    background: #fbfdfb;
+    overflow: hidden;
+}
+
+.faq-item summary {
+    padding: 17px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #254b37;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "+";
+    font-size: 22px;
+    color: #15803d;
+}
+
+.faq-item[open] summary::after {
+    content: "−";
+}
+
+.faq-item p {
+    padding: 0 20px 17px;
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.contact-form {
+    display: grid;
+    gap: 17px;
+}
+
+.form-group label {
+    display: block;
+    color: #365344;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #dce8df;
+    border-radius: 9px;
+    background: #fbfdfb;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: .2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22,163,74,.10);
+    background: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.submit-button {
+    background: linear-gradient(120deg, #15803d, #16a34a);
+    color: white;
+    border: none;
+    padding: 13px 23px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+    justify-self: start;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 15px rgba(21,128,61,.2);
+}
+
+.support-footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 18px;
+}
+
+@media(max-width:750px) {
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .support-hero {
+        padding: 28px 22px;
+    }
+
+    .support-hero h1 {
+        font-size: 25px;
+    }
+
+    .support-hero-icon {
+        right: 18px;
+        font-size: 45px;
+    }
+
+    .support-section {
+        padding: 20px;
+    }
+}
+
+@media(max-width:600px) {
+    .support-page {
+        padding: 12px;
+    }
+}
+</style>
+
+<div class="support-page">
+
+    <!-- HERO -->
+    <div class="support-hero">
+        <div class="support-hero-icon">🎧</div>
+        <h1>How can we help you?</h1>
+        <p>
+            Welcome to the EnergySync Support Center.
+            Find answers, understand your energy reports and get help
+            with your smart electricity management system.
+        </p>
+    </div>
+
+    <!-- SUPPORT OPTIONS -->
+<div class="support-grid">
+
+    <!-- HELP CENTER CARD -->
+    <a href="#help-guide" class="support-option">
+        <div class="option-icon">📘</div>
+        <h3>Help Center</h3>
+        <p>
+            Learn how to use the EnergySync dashboard,
+            consumption history and prediction tools.
+        </p>
+    </a>
+
+    <!-- FAQ CARD -->
+    <a href="#faq-section" class="support-option">
+        <div class="option-icon">❓</div>
+        <h3>FAQs</h3>
+        <p>
+            Explore answers to common questions about
+            energy monitoring and AI analysis.
+        </p>
+    </a>
+
+</div>
+
+        
+
+    </div>
+<!-- HELP CENTER GUIDE -->
+<div class="support-section" id="help-guide">
+
+    <div class="section-heading">
+        <div class="section-icon">📘</div>
+        <div>
+            <h2>EnergySync User Guide</h2>
+            <p>Learn how to use the main features of EnergySync</p>
+        </div>
+    </div>
+
+    <details class="faq-item">
+        <summary>1. Dashboard</summary>
+        <p>
+            View your electricity consumption overview,
+            energy statistics and prediction results.
+        </p>
+    </details>
+
+    <details class="faq-item">
+        <summary>2. Add Electricity Usage</summary>
+        <p>
+            Open Add Usage and enter your electricity
+            consumption details to record your usage.
+        </p>
+    </details>
+
+    <details class="faq-item">
+        <summary>3. Consumption History</summary>
+        <p>
+            Review your previously recorded electricity
+            consumption and monitor usage patterns.
+        </p>
+    </details>
+
+    <details class="faq-item">
+        <summary>4. AI Predictions</summary>
+        <p>
+            Explore predicted electricity consumption
+            generated using the machine learning model.
+        </p>
+    </details>
+
+    <details class="faq-item">
+        <summary>5. Anomaly Detection</summary>
+        <p>
+            Identify unusual electricity consumption
+            patterns and understand possible energy waste.
+        </p>
+    </details>
+
+    <details class="faq-item">
+        <summary>6. Energy Recommendations</summary>
+        <p>
+            Review energy-saving suggestions to improve
+            electricity usage efficiency.
+        </p>
+    </details>
+
+</div>
+    <!-- FAQ -->
+<div class="support-section" id="faq-section">
+
+        <div class="section-heading">
+            <div class="section-icon">❓</div>
+            <div>
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers to help you get started</p>
+            </div>
+        </div>
+
+        <details class="faq-item">
+            <summary>How does EnergySync predict electricity consumption?</summary>
+            <p>
+                EnergySync uses machine learning models and historical
+                electricity consumption records to estimate future usage.
+                The prediction feature uses a Random Forest Regressor.
+            </p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I add electricity consumption?</summary>
+            <p>
+                Open Add Usage to enter your electricity consumption
+                manually. You can also import supported household
+                consumption data through the dataset import feature.
+            </p>
+        </details>
+
+        <details class="faq-item">
+            <summary>What is anomaly detection?</summary>
+            <p>
+                Anomaly detection identifies unusual electricity
+                consumption patterns using an Isolation Forest model.
+                It helps you notice unexpected changes in energy usage.
+            </p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I reduce electricity waste?</summary>
+            <p>
+                Review your consumption history, anomaly detection
+                results and energy-saving recommendations to identify
+                unusual usage and opportunities to save electricity.
+            </p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Can I change my account password?</summary>
+            <p>
+                Yes. Open Account Settings and select Change Password
+                to update your account password securely.
+            </p>
+        </details>
+
+    </div>
+
+    
+        ⚡ EnergySync · Smart Energy Management
+    </div>
+
+</div>
+
+{% endblock %}

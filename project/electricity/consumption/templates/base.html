@@ -22,11 +22,16 @@
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar">
 
-        <div class="sidebar-header-mobile">
+      <div class="sidebar-header-mobile">
             <div class="brand" style="margin-bottom: 0;">
-                <div class="brand-icon">⚡</div>
-                <span>Energy<span class="brand-green">Sync</span></span>
-            </div>
+   <div class="brand-icon">
+    <i class="bi bi-lightning-charge-fill"></i>
+</div>
+    <span class="brand-name">
+        Energy<span class="brand-green">Sync</span>
+    </span>
+</div>
+    
             <button class="close-sidebar-btn" id="sidebarClose" title="Close Navigation" aria-label="Close navigation">
                 <i class="bi bi-x-lg"></i>
             </button>
@@ -101,7 +106,27 @@
 
         </nav>
 
+       
+       <div class="menu-heading account-heading">
+    ACCOUNT & HELP
+</div>
+
+        <nav class="navigation">
+
+            <a href="{% url 'settings' %}"
+               class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                <span>⚙️</span> Settings
+            </a>
+
+            <a href="{% url 'support' %}"
+               class="nav-link {% if request.resolver_match.url_name == 'support' %}active{% endif %}">
+                <span>🎧</span> Support
+            </a>
+
+        </nav>
+
         <div class="sidebar-bottom">
+
 
             <div class="upgrade-card">
                 <div class="upgrade-icon">✦</div>
